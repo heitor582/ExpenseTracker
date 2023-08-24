@@ -1,0 +1,5 @@
+rootProject.name = 'expense-tracker'
+include 'domain'
+include 'application'
+include 'infrastructure'
+
