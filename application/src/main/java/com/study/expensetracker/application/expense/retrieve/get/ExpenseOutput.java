@@ -1,6 +1,5 @@
 package com.study.expensetracker.application.expense.retrieve.get;
 
-import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryID;
 import com.study.expensetracker.domain.expense.Expense;
 import com.study.expensetracker.domain.expense.ExpenseID;

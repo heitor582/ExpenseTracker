@@ -6,7 +6,6 @@ import com.study.expensetracker.infrastructure.configuration.GeneratedJpaOnly;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;

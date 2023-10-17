@@ -14,14 +14,14 @@ public enum CategoryType {
     SALARY(Type.DEPOSIT),
     OTHER_INCOMES(Type.DEPOSIT);
 
-    private Type type;
+    private final Type type;
 
     CategoryType(final Type type) {
         this.type = type;
     }
 
-    public Type getType() {
-        return this.getType();
+    public Type getRawType() {
+        return this.type;
     }
 
     private enum Type {

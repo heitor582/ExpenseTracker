@@ -2,9 +2,7 @@ package com.study.expensetracker.domain.expense;
 
 import com.study.expensetracker.domain.AggregateRoot;
 import com.study.expensetracker.domain.category.Category;
-import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.ValidationHandler;
-import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.math.BigDecimal;
 import java.time.Instant;

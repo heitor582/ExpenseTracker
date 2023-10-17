@@ -1,6 +1,5 @@
 package com.study.expensetracker.infrastructure.category.persistence;
 
-import com.study.expensetracker.domain.budget.Budget;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryID;
 import com.study.expensetracker.domain.category.CategoryType;

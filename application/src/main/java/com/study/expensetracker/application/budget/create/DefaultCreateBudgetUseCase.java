@@ -1,9 +1,7 @@
 package com.study.expensetracker.application.budget.create;
 
-import com.study.expensetracker.application.category.create.CreateCategoryOutput;
 import com.study.expensetracker.domain.budget.Budget;
 import com.study.expensetracker.domain.budget.BudgetGateway;
-import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.handler.Notification;
 
