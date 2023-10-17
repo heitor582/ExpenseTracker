@@ -2,7 +2,9 @@ package com.study.expensetracker.domain;
 
 import com.study.expensetracker.domain.events.DomainEvent;
 import com.study.expensetracker.domain.events.DomainEventPublisher;
+import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.ValidationHandler;
+import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +20,7 @@ public abstract class Entity<ID extends Identifier> {
         this.id = Objects.requireNonNull(id, "id should not be null");
     }
 
-    public abstract void validate(ValidationHandler handler);
+    public abstract void validate(final ValidationHandler handler);
 
     public ID getId() {
         return id;
@@ -40,6 +42,14 @@ public abstract class Entity<ID extends Identifier> {
     public void registerEvent(final DomainEvent event) {
         if(event != null) {
             this.domainEvents.add(event);
+        }
+    }
+
+    protected void selfValidate(final String errorMessage) {
+        final Notification notification = Notification.create();
+        validate(notification);
+        if(notification.hasError()){
+            throw new NotificationException(errorMessage, notification);
         }
     }
 

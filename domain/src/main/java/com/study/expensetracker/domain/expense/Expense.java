@@ -2,8 +2,9 @@ package com.study.expensetracker.domain.expense;
 
 import com.study.expensetracker.domain.AggregateRoot;
 import com.study.expensetracker.domain.category.Category;
-import com.study.expensetracker.domain.utils.InstantUtils;
+import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.ValidationHandler;
+import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -30,15 +31,19 @@ public class Expense extends AggregateRoot<ExpenseID> {
         this.amount = amount;
         this.category = category;
         this.createdAt = Objects.requireNonNull(createdAt, "createdAt should not be null");
+
+        selfValidate("Failed to create a Aggregate Expense");
     }
 
     public static Expense newExpense(
             final String name,
             final String description,
             final BigDecimal amount,
-            final Category category
+            final Category category,
+            final Instant createdAt
     ) {
-        return new Expense(ExpenseID.unique(), name, description, amount, category, InstantUtils.now());
+        category.addValue(amount);
+        return new Expense(ExpenseID.unique(), name, description, amount, category, createdAt);
     }
 
     public static Expense with(
