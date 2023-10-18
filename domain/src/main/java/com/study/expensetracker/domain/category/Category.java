@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public class Category extends AggregateRoot<CategoryID> {
-    private final CategoryType type;
+    private CategoryType type;
     private BigDecimal actualValue;
     private final Budget budget;
     private final Instant createdAt;
@@ -53,13 +53,12 @@ public class Category extends AggregateRoot<CategoryID> {
 
     public static Category newCategory(
             final CategoryType type,
-            final BigDecimal actualValue,
             final Budget budget
     ) {
         return new Category(
                 CategoryID.unique(),
                 type,
-                actualValue,
+                BigDecimal.ZERO,
                 budget,
                 InstantUtils.now(),
                 InstantUtils.now()
@@ -69,6 +68,12 @@ public class Category extends AggregateRoot<CategoryID> {
     @Override
     public void validate(final ValidationHandler handler) {
 
+    }
+
+    public Category update(final CategoryType type) {
+        this.type = type;
+        this.update();
+        return this;
     }
 
     public Category addValue(final BigDecimal value) {

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public class Budget extends AggregateRoot<BudgetID> {
-    private final String name;
+    private String name;
     private BigDecimal actualValue;
     private final BigDecimal maxValue;
     private final Instant createdAt;
@@ -57,6 +57,12 @@ public class Budget extends AggregateRoot<BudgetID> {
     @Override
     public void validate(ValidationHandler handler) {
 
+    }
+
+    public Budget update(final String name) {
+        this.name = name;
+        this.update();
+        return this;
     }
 
     public Budget addValue(final BigDecimal value) {

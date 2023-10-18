@@ -13,6 +13,7 @@ public class DefaultCreateBudgetUseCase extends CreateBudgetUseCase {
     public DefaultCreateBudgetUseCase(final BudgetGateway budgetGateway) {
         this.budgetGateway = Objects.requireNonNull(budgetGateway);
     }
+
     @Override
     public CreateBudgetOutput execute(final CreateBudgetCommand command) {
         final Notification notification = Notification.create();

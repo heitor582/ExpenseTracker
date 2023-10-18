@@ -30,7 +30,6 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
 
         final Category category = notification.validate(() -> Category.newCategory(
                 command.type(),
-                command.actualValue(),
                 budget
         ));
 
