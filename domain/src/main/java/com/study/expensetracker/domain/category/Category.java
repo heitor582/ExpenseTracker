@@ -2,13 +2,17 @@ package com.study.expensetracker.domain.category;
 
 import com.study.expensetracker.domain.AggregateRoot;
 import com.study.expensetracker.domain.budget.Budget;
+import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.utils.InstantUtils;
+import com.study.expensetracker.domain.validation.Error;
 import com.study.expensetracker.domain.validation.ValidationHandler;
+import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
 public class Category extends AggregateRoot<CategoryID> {
+    private String name;
     private CategoryType type;
     private BigDecimal actualValue;
     private final Budget budget;
@@ -17,6 +21,7 @@ public class Category extends AggregateRoot<CategoryID> {
 
     private Category(
             final CategoryID categoryID,
+            final String name,
             final CategoryType type,
             final BigDecimal actualValue,
             final Budget budget,
@@ -25,6 +30,7 @@ public class Category extends AggregateRoot<CategoryID> {
     ) {
         super(categoryID);
         this.type = type;
+        this.name = name;
         this.actualValue = actualValue;
         this.budget = budget;
         this.createdAt = createdAt;
@@ -35,6 +41,7 @@ public class Category extends AggregateRoot<CategoryID> {
 
     public static Category with(
             final CategoryID categoryID,
+            final String name,
             final CategoryType type,
             final BigDecimal actualValue,
             final Budget budget,
@@ -43,6 +50,7 @@ public class Category extends AggregateRoot<CategoryID> {
     ) {
         return new Category(
                 categoryID,
+                name,
                 type,
                 actualValue,
                 budget,
@@ -52,31 +60,39 @@ public class Category extends AggregateRoot<CategoryID> {
     }
 
     public static Category newCategory(
+            final String name,
             final CategoryType type,
             final Budget budget
     ) {
+        final Instant now = InstantUtils.now();
         return new Category(
                 CategoryID.unique(),
+                name,
                 type,
                 BigDecimal.ZERO,
                 budget,
-                InstantUtils.now(),
-                InstantUtils.now()
+                now,
+                now
         );
     }
 
     @Override
     public void validate(final ValidationHandler handler) {
-
+        new CategoryValidator(this, handler).validate();
     }
 
-    public Category update(final CategoryType type) {
-        this.type = type;
+    public Category update(final String name) {
+        this.name = name;
         this.update();
         return this;
     }
 
     public Category addValue(final BigDecimal value) {
+        if(value.signum() < 0) {
+            final String errorMessage = "Cannot add a negative number to a category";
+            throw new NotificationException(errorMessage, Notification.create().append(new Error(errorMessage)));
+        }
+
         this.actualValue = actualValue.add(value);
         budget.addValue(value);
         update();
@@ -86,6 +102,10 @@ public class Category extends AggregateRoot<CategoryID> {
     private void update() {
         this.updatedAt = InstantUtils.now();
         selfValidate("Failed to update an Aggregate Category");
+    }
+
+    public String getName() {
+        return name;
     }
 
     public CategoryType getType() {

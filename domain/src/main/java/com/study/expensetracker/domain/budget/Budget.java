@@ -1,8 +1,11 @@
 package com.study.expensetracker.domain.budget;
 
 import com.study.expensetracker.domain.AggregateRoot;
+import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.utils.InstantUtils;
+import com.study.expensetracker.domain.validation.Error;
 import com.study.expensetracker.domain.validation.ValidationHandler;
+import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -33,13 +36,14 @@ public class Budget extends AggregateRoot<BudgetID> {
     }
 
     public static Budget newBudget(final String name, final BigDecimal maxValue){
+        final Instant now = InstantUtils.now();
         return new Budget(
                 BudgetID.unique(),
                 name,
                 BigDecimal.ZERO,
                 maxValue,
-                InstantUtils.now(),
-                InstantUtils.now()
+                now,
+                now
         );
     }
 
@@ -56,7 +60,7 @@ public class Budget extends AggregateRoot<BudgetID> {
 
     @Override
     public void validate(ValidationHandler handler) {
-
+        new BudgetValidator(this, handler).validate();
     }
 
     public Budget update(final String name) {
@@ -66,6 +70,11 @@ public class Budget extends AggregateRoot<BudgetID> {
     }
 
     public Budget addValue(final BigDecimal value) {
+        if(value.signum() < 0) {
+            final String errorMessage = "Cannot add a negative number to a budget";
+            throw new NotificationException(errorMessage, Notification.create().append(new Error(errorMessage)));
+        }
+
         this.actualValue = this.actualValue.add(value);
         this.update();
         return this;
