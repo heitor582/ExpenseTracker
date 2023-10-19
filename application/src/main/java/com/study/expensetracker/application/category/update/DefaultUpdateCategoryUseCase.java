@@ -25,7 +25,7 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase {
 
         final Notification notification = Notification.create();
 
-        notification.validate(() -> category.update(command.newType()));
+        notification.validate(() -> category.update(command.newName()));
 
         if (notification.hasError()) {
             throw new NotificationException("Could not update Aggregate Category %s".formatted(category), notification);

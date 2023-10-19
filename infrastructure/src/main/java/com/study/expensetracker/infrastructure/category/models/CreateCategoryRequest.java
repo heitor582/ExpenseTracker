@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record CreateCategoryRequest(
         @JsonProperty("budget_id") String budgetId,
-        @JsonProperty("name") String name
+        @JsonProperty("name") String name,
+        @JsonProperty("type") String type
 ) {
 }

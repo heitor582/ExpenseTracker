@@ -23,6 +23,8 @@ public class CategoryJpaEntity {
     @Id
     private String id;
     @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CategoryType type;
     @Column(nullable = false)
@@ -41,6 +43,7 @@ public class CategoryJpaEntity {
 
     public CategoryJpaEntity(
             final String id,
+            final String name,
             final CategoryType type,
             final BigDecimal actualValue,
             final BudgetJpaEntity budget,
@@ -48,6 +51,7 @@ public class CategoryJpaEntity {
             final Instant updatedAt
     ) {
         this.id = id;
+        this.name = name;
         this.type = type;
         this.actualValue = actualValue;
         this.budget = budget;
@@ -58,6 +62,7 @@ public class CategoryJpaEntity {
     public static CategoryJpaEntity from(final Category category) {
         return new CategoryJpaEntity(
                 category.getId().getValue(),
+                category.getName(),
                 category.getType(),
                 category.getActualValue(),
                 BudgetJpaEntity.from(category.getBudget()),
@@ -69,6 +74,7 @@ public class CategoryJpaEntity {
     public Category toAggregate(){
         return Category.with(
                 CategoryID.from(id),
+                name,
                 type,
                 actualValue,
                 budget.toAggregate(),

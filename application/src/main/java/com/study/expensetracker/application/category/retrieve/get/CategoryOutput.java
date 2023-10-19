@@ -10,6 +10,7 @@ import java.time.Instant;
 
 public record CategoryOutput(
         CategoryID categoryID,
+        String name,
         CategoryType type,
         BigDecimal actualValue,
         BudgetID budgetID,
@@ -19,6 +20,7 @@ public record CategoryOutput(
     public static CategoryOutput from(final Category category) {
         return new CategoryOutput(
             category.getId(),
+            category.getName(),
             category.getType(),
             category.getActualValue(),
             category.getBudget().getId(),

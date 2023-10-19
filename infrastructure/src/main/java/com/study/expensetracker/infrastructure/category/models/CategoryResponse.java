@@ -8,7 +8,8 @@ import java.time.Instant;
 
 public record CategoryResponse(
         @JsonProperty("id") String id,
-        @JsonProperty("name") String type,
+        @JsonProperty("name") String name,
+        @JsonProperty("type") String type,
         @JsonProperty("actual_value") BigDecimal actualValue,
         @JsonProperty("budget_id") String budgetID,
         @JsonProperty("created_at") Instant createdAt,
@@ -17,6 +18,7 @@ public record CategoryResponse(
     public static CategoryResponse from(final CategoryOutput output) {
         return new CategoryResponse(
                 output.categoryID().getValue(),
+                output.name(),
                 output.type().name(),
                 output.actualValue(),
                 output.categoryID().getValue(),
