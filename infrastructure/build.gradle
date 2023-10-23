@@ -8,12 +8,17 @@ plugins {
 
 group = 'com.study.expensetracker.infrastructure'
 
+
 dependencies {
     implementation(project(":domain"))
     implementation(project(":application"))
 
     implementation ('org.flywaydb:flyway-core')
     runtimeOnly ('org.postgresql:postgresql')
+
+    implementation('org.yaml:snakeyaml:2.0'){
+        version {strictly("2.0")}
+    }
 
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'

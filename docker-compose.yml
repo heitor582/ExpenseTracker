@@ -1,17 +1,19 @@
 version: '3.7'
 services:
   expense_tracker:
-    container_name: expense_tracker
     build:
       context: ./
+    deploy:
+      replicas: 3
+      endpoint_mode: vip
     ports:
-      - "8080:8080"
+      - "8080-8082:8080"
     depends_on:
       - postgres
     env_file:
       - .env
     networks:
-      - postgres_network
+      - traefik_network
 
   postgres:
     image: postgres
@@ -23,7 +25,8 @@ services:
       POSTGRES_PASSWORD: expense_tracker
       POSTGRES_DB: expense_tracker
     networks:
-      - postgres_network
+      - traefik_network
 
 networks:
-  postgres_network:
+  traefik_network:
+    external: true
