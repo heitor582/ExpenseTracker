@@ -6,7 +6,6 @@ import com.study.expensetracker.infrastructure.budget.models.BudgetResponse;
 import com.study.expensetracker.infrastructure.budget.models.BudgetSimpleResponse;
 import com.study.expensetracker.infrastructure.budget.models.CreateBudgetRequest;
 import com.study.expensetracker.infrastructure.budget.models.UpdateBudgetRequest;
-import com.study.expensetracker.infrastructure.category.models.CategoryListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

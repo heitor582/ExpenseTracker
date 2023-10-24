@@ -4,7 +4,6 @@ package com.study.expensetracker.domain.category;
 import com.study.expensetracker.domain.pagination.Pagination;
 import com.study.expensetracker.domain.pagination.SearchQuery;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface CategoryGateway {

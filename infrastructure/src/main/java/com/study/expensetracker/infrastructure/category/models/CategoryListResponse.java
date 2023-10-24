@@ -1,7 +1,6 @@
 package com.study.expensetracker.infrastructure.category.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.study.expensetracker.application.category.retrieve.get.CategoryOutput;
 import com.study.expensetracker.application.category.retrieve.list.CategoryListOutput;
 
 import java.math.BigDecimal;

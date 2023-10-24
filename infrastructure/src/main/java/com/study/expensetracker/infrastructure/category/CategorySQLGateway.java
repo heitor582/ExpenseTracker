@@ -1,12 +1,10 @@
 package com.study.expensetracker.infrastructure.category;
 
-import com.study.expensetracker.domain.budget.Budget;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
 import com.study.expensetracker.domain.category.CategoryID;
 import com.study.expensetracker.domain.pagination.Pagination;
 import com.study.expensetracker.domain.pagination.SearchQuery;
-import com.study.expensetracker.infrastructure.budget.persistence.BudgetJpaEntity;
 import com.study.expensetracker.infrastructure.category.persistence.CategoryJpaEntity;
 import com.study.expensetracker.infrastructure.category.persistence.CategoryRepository;
 import com.study.expensetracker.infrastructure.utils.SpecificationUtils;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 

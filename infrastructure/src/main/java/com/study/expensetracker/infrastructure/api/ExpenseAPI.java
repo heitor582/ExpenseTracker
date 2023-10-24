@@ -1,7 +1,6 @@
 package com.study.expensetracker.infrastructure.api;
 
 import com.study.expensetracker.domain.pagination.Pagination;
-import com.study.expensetracker.infrastructure.budget.models.BudgetListResponse;
 import com.study.expensetracker.infrastructure.expense.models.CreateExpenseRequest;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseListResponse;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseResponse;

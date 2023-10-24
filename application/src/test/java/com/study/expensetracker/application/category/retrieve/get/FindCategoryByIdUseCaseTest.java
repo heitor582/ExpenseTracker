@@ -1,10 +1,7 @@
 package com.study.expensetracker.application.category.retrieve.get;
 
 import com.study.expensetracker.application.UseCaseTest;
-import com.study.expensetracker.application.category.create.DefaultCreateCategoryUseCase;
 import com.study.expensetracker.domain.budget.Budget;
-import com.study.expensetracker.domain.budget.BudgetGateway;
-import com.study.expensetracker.domain.budget.BudgetID;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
 import com.study.expensetracker.domain.category.CategoryID;
