@@ -13,6 +13,7 @@ public class DefaultFindCategoryByIdUseCase extends FindCategoryByIdUseCase {
     public DefaultFindCategoryByIdUseCase(final CategoryGateway categoryGateway) {
         this.categoryGateway = Objects.requireNonNull(categoryGateway);
     }
+
     @Override
     public CategoryOutput execute(final String id) {
         final CategoryID categoryID = CategoryID.from(id);

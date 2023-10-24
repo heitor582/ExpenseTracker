@@ -1,6 +1,9 @@
 package com.study.expensetracker.infrastructure.api;
 
+import com.study.expensetracker.domain.pagination.Pagination;
+import com.study.expensetracker.infrastructure.budget.models.BudgetListResponse;
 import com.study.expensetracker.infrastructure.expense.models.CreateExpenseRequest;
+import com.study.expensetracker.infrastructure.expense.models.ExpenseListResponse;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseResponse;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseSimpleResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RequestMapping(value = "expenses")
@@ -41,4 +45,20 @@ public interface ExpenseAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
     })
     ResponseEntity<ExpenseResponse> getById(@PathVariable(name = "id") final String id);
+
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "List all Expenses paginated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listed successfully"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+    })
+    ResponseEntity<Pagination<ExpenseListResponse>> list(
+            @RequestParam(name = "search", required = false, defaultValue = "") final String search,
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "perPage", required = false, defaultValue = "10") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
+            @RequestParam(name = "direction", required = false, defaultValue = "asc") final String direction
+    );
 }

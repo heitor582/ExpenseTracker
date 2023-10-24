@@ -1,10 +1,18 @@
 package com.study.expensetracker.infrastructure.category;
 
+import com.study.expensetracker.domain.budget.Budget;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
 import com.study.expensetracker.domain.category.CategoryID;
+import com.study.expensetracker.domain.pagination.Pagination;
+import com.study.expensetracker.domain.pagination.SearchQuery;
+import com.study.expensetracker.infrastructure.budget.persistence.BudgetJpaEntity;
 import com.study.expensetracker.infrastructure.category.persistence.CategoryJpaEntity;
 import com.study.expensetracker.infrastructure.category.persistence.CategoryRepository;
+import com.study.expensetracker.infrastructure.utils.SpecificationUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,8 +38,27 @@ public class CategorySQLGateway implements CategoryGateway {
     }
 
     @Override
-    public List<Category> list() {
-        return this.repository.findAll().stream().map(CategoryJpaEntity::toAggregate).toList();
+    public Pagination<Category> list(final SearchQuery query) {
+        final var page = PageRequest.of(
+                query.page(),
+                query.perPage(),
+                Sort.by(Sort.Direction.fromString(query.direction()), query.sort())
+        );
+
+        final var specification = Optional.ofNullable(query.terms())
+                .filter(str -> !str.isBlank())
+                .map(terms -> SpecificationUtils
+                        .<CategoryJpaEntity>like("name", terms))
+                .orElse(null);
+
+        final var pageResult = this.repository.findAll(Specification.where(specification), page);
+
+        return new Pagination<>(
+                pageResult.getNumber(),
+                pageResult.getSize(),
+                pageResult.getTotalElements(),
+                pageResult.map(CategoryJpaEntity::toAggregate).toList()
+        );
     }
 
     @Override
