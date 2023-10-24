@@ -4,8 +4,6 @@ import com.study.expensetracker.domain.validation.Error;
 import com.study.expensetracker.domain.validation.ValidationHandler;
 import com.study.expensetracker.domain.validation.Validator;
 
-import java.math.BigDecimal;
-
 public class CategoryValidator extends Validator {
     private static final int NAME_MIN_LENGTH = 3;
     private static final int NAME_MAX_LENGTH = 255;

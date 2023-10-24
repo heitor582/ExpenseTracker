@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ExpenseTest extends UnitTest {
     @Test
     public void givenAValidParams_whenCallsNewExpense_thenInstantiateIt() {
-        final var expectedName = "teste";
-        final var expectedDescription = "teste";
+        final var expectedName = "test";
+        final var expectedDescription = "test";
         final var expectedAmount = BigDecimal.valueOf(20L);
-        final var expectedCategory = Category.newCategory("teste", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
         final var expectedCreatedAt = InstantUtils.now();
 
         final var expense = Expense.newExpense(expectedName, expectedDescription, expectedAmount, expectedCategory, expectedCreatedAt);
@@ -51,7 +51,7 @@ class ExpenseTest extends UnitTest {
             final String expectedName,
             final String expectedErrorMessage
     ){
-        final var expectedCategory = Category.newCategory("teste", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
         final var expectedErrorCount = 1;
 
         final var exception = assertThrows(NotificationException.class,

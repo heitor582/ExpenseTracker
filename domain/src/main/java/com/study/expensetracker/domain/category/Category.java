@@ -13,7 +13,7 @@ import java.time.Instant;
 
 public class Category extends AggregateRoot<CategoryID> {
     private String name;
-    private CategoryType type;
+    private final CategoryType type;
     private BigDecimal actualValue;
     private final Budget budget;
     private final Instant createdAt;
