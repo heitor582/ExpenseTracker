@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public record CategoryOutput(
-        CategoryID categoryID,
+        CategoryID id,
         String name,
         CategoryType type,
         BigDecimal actualValue,

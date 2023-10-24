@@ -16,7 +16,7 @@ public record BudgetResponse(
 ) {
     public static BudgetResponse from(final BudgetOutput output){
         return new BudgetResponse(
-                output.budgetID().getValue(),
+                output.id().getValue(),
                 output.name(),
                 output.actualValue(),
                 output.maxValue(),

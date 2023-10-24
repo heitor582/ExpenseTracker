@@ -17,11 +17,11 @@ public record CategoryResponse(
 ) {
     public static CategoryResponse from(final CategoryOutput output) {
         return new CategoryResponse(
-                output.categoryID().getValue(),
+                output.id().getValue(),
                 output.name(),
                 output.type().name(),
                 output.actualValue(),
-                output.categoryID().getValue(),
+                output.budgetID().getValue(),
                 output.createdAt(),
                 output.updatedAt()
         );

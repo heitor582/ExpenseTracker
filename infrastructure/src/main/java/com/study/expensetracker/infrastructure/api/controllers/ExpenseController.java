@@ -4,8 +4,10 @@ import com.study.expensetracker.application.expense.create.CreateExpenseCommand;
 import com.study.expensetracker.application.expense.create.CreateExpenseOutput;
 import com.study.expensetracker.application.expense.create.CreateExpenseUseCase;
 import com.study.expensetracker.application.expense.retrieve.get.FindExpenseByIdUseCase;
+import com.study.expensetracker.domain.pagination.Pagination;
 import com.study.expensetracker.infrastructure.api.ExpenseAPI;
 import com.study.expensetracker.infrastructure.expense.models.CreateExpenseRequest;
+import com.study.expensetracker.infrastructure.expense.models.ExpenseListResponse;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseResponse;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseSimpleResponse;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +44,16 @@ public class ExpenseController implements ExpenseAPI {
     @Override
     public ResponseEntity<ExpenseResponse> getById(String id) {
         return ResponseEntity.ok(ExpenseResponse.from(this.findExpenseByIdUseCase.execute(id)));
+    }
+
+    @Override
+    public ResponseEntity<Pagination<ExpenseListResponse>> list(
+            final String search,
+            final int page,
+            final int perPage,
+            final String sort,
+            final String direction
+    ) {
+        return null;
     }
 }

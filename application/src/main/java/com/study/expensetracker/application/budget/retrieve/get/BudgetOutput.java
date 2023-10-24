@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public record BudgetOutput(
-        BudgetID budgetID,
+        BudgetID id,
         String name,
         BigDecimal actualValue,
         BigDecimal maxValue,
