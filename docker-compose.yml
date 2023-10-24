@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 services:
   expense_tracker:
     build:
@@ -14,6 +14,11 @@ services:
       - .env
     networks:
       - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.expense.rule=Host(`expense.server.com`)"
+      - "traefik.http.routers.expense.entrypoints=web"
+      - "traefik.http.routers.expense.service=api@internal"
 
   postgres:
     image: postgres
@@ -26,6 +31,11 @@ services:
       POSTGRES_DB: expense_tracker
     networks:
       - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.postgres-expense.rule=Host(`postgres-expense.server.com`)"
+      - "traefik.http.routers.postgres-expense.entrypoints=web"
+      - "traefik.http.routers.postgres-expense.service=api@internal"
 
 networks:
   traefik_network:
