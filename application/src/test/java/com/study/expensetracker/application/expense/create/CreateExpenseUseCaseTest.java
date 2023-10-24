@@ -40,7 +40,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
     private DefaultCreateExpenseUseCase useCase;
 
     @Test
-    public void givenAValidParams_whenCallsNewExpense_thenInstantiateIt() {
+    public void givenAValidParams_whenCallsNewExpense_shouldReturnIt() {
         final var expectedName = "test";
         final var expectedDescription = "test";
         final var expectedAmount = BigDecimal.valueOf(20L);
