@@ -1,8 +1,8 @@
 postgresql:
-  username: ${POSTGRESQL_USERNAME:expense_tracker}
-  password: ${POSTGRESQL_PASSWORD:123456}
-  schema: ${POSTGRESQL_SCHEMA:expense_tracker}
-  url: ${POSTGRESQL_URL:localhost:5432}
+  username: ${POSTGRES_USER}
+  password: ${POSTGRES_PASSWORD}
+  schema: ${POSTGRES_DB}
+  url: ${POSTGRES_URL:localhost}
 
 spring:
   jpa:

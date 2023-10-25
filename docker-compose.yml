@@ -4,39 +4,28 @@ services:
     build:
       context: ./
     deploy:
-      replicas: 3
+      replicas: 1
       endpoint_mode: vip
     ports:
       - "8080-8082:8080"
     depends_on:
-      - postgres
+      - expense_tracker_postgres
     env_file:
       - .env
-    networks:
-      - traefik_network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.expense.rule=Host(`expense.server.com`)"
-      - "traefik.http.routers.expense.entrypoints=web"
-      - "traefik.http.routers.expense.service=api@internal"
 
-  postgres:
+  expense_tracker_postgres:
     image: postgres
-    container_name: postgres
+    container_name: expense_tracker_postgres
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: expense_tracker
-      POSTGRES_PASSWORD: expense_tracker
-      POSTGRES_DB: expense_tracker
-    networks:
-      - traefik_network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.postgres-expense.rule=Host(`postgres-expense.server.com`)"
-      - "traefik.http.routers.postgres-expense.entrypoints=web"
-      - "traefik.http.routers.postgres-expense.service=api@internal"
+    env_file:
+      - .env
+    volumes:
+      - expense_tracker_postgres_data:/var/lib/postgresql/data
 
 networks:
-  traefik_network:
+  server-network:
     external: true
+
+volumes:
+  expense_tracker_postgres_data:

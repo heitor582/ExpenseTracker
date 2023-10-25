@@ -5,7 +5,7 @@
 #      - main
 #
 #env:
-#  IMAGE_NAME: heitor582/planets-and-probes
+#  IMAGE_NAME: heitor582/ExpenseTracker
 #jobs:
 #  tests:
 #    name: Tests runner
