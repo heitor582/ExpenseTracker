@@ -3,11 +3,8 @@ services:
   expense_tracker:
     build:
       context: ./
-    deploy:
-      replicas: 1
-      endpoint_mode: vip
     ports:
-      - "8080-8082:8080"
+      - "8080:8080"
     depends_on:
       - expense_tracker_postgres
     env_file:

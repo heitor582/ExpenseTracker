@@ -7,14 +7,14 @@ import java.util.Optional;
 public record CreateExpenseCommand(
         String name,
         String description,
-        Optional<Instant> createdAt,
+        Optional<String> createdAt,
         BigDecimal amount,
         String categoryId
 ) {
     public static CreateExpenseCommand with(
             final String name,
             final String description,
-            final Instant createdAt,
+            final String createdAt,
             final BigDecimal amount,
             final String categoryId
     ){

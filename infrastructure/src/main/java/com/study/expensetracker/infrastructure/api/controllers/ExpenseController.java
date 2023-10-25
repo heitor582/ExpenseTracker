@@ -4,7 +4,9 @@ import com.study.expensetracker.application.expense.create.CreateExpenseCommand;
 import com.study.expensetracker.application.expense.create.CreateExpenseOutput;
 import com.study.expensetracker.application.expense.create.CreateExpenseUseCase;
 import com.study.expensetracker.application.expense.retrieve.get.FindExpenseByIdUseCase;
+import com.study.expensetracker.application.expense.retrieve.list.ListExpenseUseCase;
 import com.study.expensetracker.domain.pagination.Pagination;
+import com.study.expensetracker.domain.pagination.SearchQuery;
 import com.study.expensetracker.infrastructure.api.ExpenseAPI;
 import com.study.expensetracker.infrastructure.expense.models.CreateExpenseRequest;
 import com.study.expensetracker.infrastructure.expense.models.ExpenseListResponse;
@@ -20,10 +22,16 @@ import java.util.Objects;
 public class ExpenseController implements ExpenseAPI {
     private final CreateExpenseUseCase createExpenseUseCase;
     private final FindExpenseByIdUseCase findExpenseByIdUseCase;
+    private final ListExpenseUseCase listExpenseUseCase;
 
-    public ExpenseController(final CreateExpenseUseCase createExpenseUseCase, final FindExpenseByIdUseCase findExpenseByIdUseCase) {
+    public ExpenseController(
+            final CreateExpenseUseCase createExpenseUseCase,
+            final FindExpenseByIdUseCase findExpenseByIdUseCase,
+            final ListExpenseUseCase listExpenseUseCase
+    ) {
         this.createExpenseUseCase = Objects.requireNonNull(createExpenseUseCase);
         this.findExpenseByIdUseCase = Objects.requireNonNull(findExpenseByIdUseCase);
+        this.listExpenseUseCase = Objects.requireNonNull(listExpenseUseCase);
     }
 
     @Override
@@ -54,6 +62,9 @@ public class ExpenseController implements ExpenseAPI {
             final String sort,
             final String direction
     ) {
-        return null;
+        final Pagination<ExpenseListResponse> response = this.listExpenseUseCase
+                .execute(new SearchQuery(page, perPage, search, sort, direction))
+                .map(ExpenseListResponse::from);
+        return ResponseEntity.ok(response);
     }
 }

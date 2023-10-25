@@ -5,6 +5,7 @@ import com.study.expensetracker.domain.budget.BudgetGateway;
 import com.study.expensetracker.domain.budget.BudgetID;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
+import com.study.expensetracker.domain.category.CategoryType;
 import com.study.expensetracker.domain.exceptions.NotFoundException;
 import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.handler.Notification;
@@ -30,7 +31,7 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
 
         final Category category = notification.validate(() -> Category.newCategory(
                 command.name(),
-                command.type(),
+                CategoryType.valueOf(command.type()),
                 budget
         ));
 

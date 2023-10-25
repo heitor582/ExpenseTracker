@@ -1,8 +1,8 @@
 CREATE TABLE budgets(
    id CHAR(32) NOT NULL PRIMARY KEY,
    name VARCHAR(255) NOT NULL,
-   actualValue DECIMAL NOT NULL,
-   maxValue DECIMAL NOT NULL,
+   actual_value DECIMAL NOT NULL,
+   max_value DECIMAL NOT NULL,
    created_at TIMESTAMP(6) NOT NULL,
    updated_at TIMESTAMP(6) NOT NULL
 );
@@ -11,7 +11,7 @@ CREATE TABLE categories(
    id CHAR(32) NOT NULL PRIMARY KEY,
    name VARCHAR(255) NOT NULL,
    type VARCHAR(8) NOT NULL,
-   actualValue DECIMAL NOT NULL,
+   actual_value DECIMAL NOT NULL,
    created_at TIMESTAMP(6) NOT NULL,
    updated_at TIMESTAMP(6) NOT NULL,
 

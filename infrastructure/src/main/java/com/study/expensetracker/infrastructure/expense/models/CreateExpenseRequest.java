@@ -8,8 +8,8 @@ import java.time.Instant;
 public record CreateExpenseRequest(
         @JsonProperty("name") String name,
         @JsonProperty("description") String description,
-        @JsonProperty("created_at") Instant createdAt,
+        @JsonProperty("created_at") String createdAt,
         @JsonProperty("amount") BigDecimal amount,
-        @JsonProperty("category") String categoryID
+        @JsonProperty("category_id") String categoryID
 ) {
 }

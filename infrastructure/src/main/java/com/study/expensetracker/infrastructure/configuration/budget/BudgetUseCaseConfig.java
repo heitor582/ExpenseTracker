@@ -4,6 +4,8 @@ import com.study.expensetracker.application.budget.create.CreateBudgetUseCase;
 import com.study.expensetracker.application.budget.create.DefaultCreateBudgetUseCase;
 import com.study.expensetracker.application.budget.retrieve.get.DefaultFindBudgetByIdUseCase;
 import com.study.expensetracker.application.budget.retrieve.get.FindBudgetByIdUseCase;
+import com.study.expensetracker.application.budget.retrieve.list.DefaultListBudgetUseCase;
+import com.study.expensetracker.application.budget.retrieve.list.ListBudgetUseCase;
 import com.study.expensetracker.application.budget.update.DefaultUpdateBudgetUseCase;
 import com.study.expensetracker.application.budget.update.UpdateBudgetUseCase;
 import com.study.expensetracker.domain.budget.BudgetGateway;
@@ -33,5 +35,10 @@ public class BudgetUseCaseConfig {
     @Bean
     public UpdateBudgetUseCase updateBudgetUseCase() {
         return new DefaultUpdateBudgetUseCase(budgetGateway);
+    }
+
+    @Bean
+    public ListBudgetUseCase listBudgetUseCase() {
+        return new DefaultListBudgetUseCase(budgetGateway);
     }
 }

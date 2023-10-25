@@ -4,6 +4,8 @@ import com.study.expensetracker.application.category.create.CreateCategoryUseCas
 import com.study.expensetracker.application.category.create.DefaultCreateCategoryUseCase;
 import com.study.expensetracker.application.category.retrieve.get.DefaultFindCategoryByIdUseCase;
 import com.study.expensetracker.application.category.retrieve.get.FindCategoryByIdUseCase;
+import com.study.expensetracker.application.category.retrieve.list.DefaultListCategoryUseCase;
+import com.study.expensetracker.application.category.retrieve.list.ListCategoryUseCase;
 import com.study.expensetracker.application.category.update.DefaultUpdateCategoryUseCase;
 import com.study.expensetracker.application.category.update.UpdateCategoryUseCase;
 import com.study.expensetracker.domain.budget.BudgetGateway;
@@ -36,5 +38,10 @@ public class CategoryUseCaseConfig {
     @Bean
     public UpdateCategoryUseCase updateCategoryUseCase() {
         return new DefaultUpdateCategoryUseCase(categoryGateway);
+    }
+
+    @Bean
+    public ListCategoryUseCase listCategoryUseCase() {
+        return new DefaultListCategoryUseCase(categoryGateway);
     }
 }
