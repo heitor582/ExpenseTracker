@@ -43,7 +43,7 @@ class CreateCategoryUseCaseTest extends UseCaseTest {
 
         when(budgetGateway.findBy(budget.getId())).thenReturn(Optional.of(budget));
 
-        final var command = CreateCategoryCommand.with(expectedName, expectedType, budget.getId().getValue());
+        final var command = CreateCategoryCommand.with(expectedName, expectedType.name(), budget.getId().getValue());
 
         when(categoryGateway.create(any())).thenAnswer(returnsFirstArg());
 
@@ -79,7 +79,7 @@ class CreateCategoryUseCaseTest extends UseCaseTest {
 
         when(budgetGateway.findBy(budget.getId())).thenReturn(Optional.of(budget));
 
-        final var command = CreateCategoryCommand.with(expectedName, expectedType, budget.getId().getValue());
+        final var command = CreateCategoryCommand.with(expectedName, expectedType.name(), budget.getId().getValue());
 
         final var exception = assertThrows(NotificationException.class, () -> useCase.execute(command));
 

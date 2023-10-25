@@ -2,6 +2,7 @@ package com.study.expensetracker.application.expense.create;
 
 import com.study.expensetracker.application.UseCaseTest;
 import com.study.expensetracker.domain.budget.Budget;
+import com.study.expensetracker.domain.budget.BudgetGateway;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
 import com.study.expensetracker.domain.category.CategoryType;
@@ -32,6 +33,8 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
     private CategoryGateway categoryGateway;
     @Mock
     private ExpenseGateway expenseGateway;
+    @Mock
+    private BudgetGateway budgetGateway;
     @InjectMocks
     private DefaultCreateExpenseUseCase useCase;
 
@@ -49,7 +52,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
         final var command = CreateExpenseCommand.with(
                 expectedName,
                 expectedDescription,
-                expectedCreatedAt,
+                expectedCreatedAt.toString(),
                 expectedAmount,
                 expectedCategory.getId().getValue()
 
@@ -69,6 +72,9 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
                 && Objects.equals(expectedAmount, expense.getCategory().getActualValue())
                 && Objects.equals(expectedAmount, expense.getCategory().getBudget().getActualValue())
         ));
+
+        verify(budgetGateway).update(any());
+        verify(categoryGateway).update(any());
     }
 
     @ParameterizedTest
@@ -90,7 +96,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
         final var command = CreateExpenseCommand.with(
                 expectedName,
                 "",
-                InstantUtils.now(),
+                InstantUtils.now().toString(),
                 BigDecimal.ZERO,
                 expectedCategory.getId().getValue()
 
@@ -102,6 +108,8 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
         assertEquals(expectedErrorMessage, exception.getErrors().get(0).message());
 
         verify(expenseGateway, never()).create(any());
+        verify(budgetGateway, never()).update(any());
+        verify(categoryGateway, never()).update(any());
     }
 
 }
