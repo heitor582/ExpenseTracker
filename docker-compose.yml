@@ -5,6 +5,7 @@ services:
       context: ./
     ports:
       - "8080:8080"
+      - "10400:10400"
     depends_on:
       - expense_tracker_postgres
     env_file:
@@ -22,7 +23,7 @@ services:
 
 networks:
   server-network:
-    external: true
+    driver: bridge
 
 volumes:
   expense_tracker_postgres_data:
