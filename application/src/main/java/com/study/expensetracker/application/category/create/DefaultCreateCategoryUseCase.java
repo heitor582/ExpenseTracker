@@ -11,6 +11,7 @@ import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
     private final CategoryGateway categoryGateway;
@@ -23,9 +24,8 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
 
     @Override
     public CreateCategoryOutput execute(final CreateCategoryCommand command) {
-        final BudgetID budgetID = BudgetID.from(command.budgetId());
-        final Budget budget = this.budgetGateway.findBy(budgetID)
-                .orElseThrow(() -> NotFoundException.with(Budget.class, budgetID));
+        final BudgetID budgetID = BudgetID.from(command.budgetId().orElse(""));
+        final Optional<Budget> budget = this.budgetGateway.findBy(budgetID);
 
         final Notification notification = Notification.create();
 

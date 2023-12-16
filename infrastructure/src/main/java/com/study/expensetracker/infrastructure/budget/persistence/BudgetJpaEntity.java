@@ -2,7 +2,7 @@ package com.study.expensetracker.infrastructure.budget.persistence;
 
 import com.study.expensetracker.domain.budget.Budget;
 import com.study.expensetracker.domain.budget.BudgetID;
-import com.study.expensetracker.infrastructure.configuration.GeneratedJpaOnly;
+import com.study.expensetracker.infrastructure.configuration.annotations.GeneratedJpaOnly;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

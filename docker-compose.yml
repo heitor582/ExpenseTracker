@@ -8,8 +8,11 @@ services:
       - "10400:10400"
     depends_on:
       - expense_tracker_postgres
+      - rabbitmq
     env_file:
       - .env
+    networks:
+      - server-network
 
   expense_tracker_postgres:
     image: postgres
@@ -20,6 +23,20 @@ services:
       - .env
     volumes:
       - expense_tracker_postgres_data:/var/lib/postgresql/data
+    networks:
+      - server-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+    networks:
+      - server-network
 
 networks:
   server-network:

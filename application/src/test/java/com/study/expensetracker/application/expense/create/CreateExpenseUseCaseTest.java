@@ -3,8 +3,10 @@ package com.study.expensetracker.application.expense.create;
 import com.study.expensetracker.application.UseCaseTest;
 import com.study.expensetracker.domain.budget.Budget;
 import com.study.expensetracker.domain.budget.BudgetGateway;
+import com.study.expensetracker.domain.budget.BudgetHistoryGateway;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
+import com.study.expensetracker.domain.category.CategoryHistoryGateway;
 import com.study.expensetracker.domain.category.CategoryType;
 import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.expense.ExpenseGateway;
@@ -16,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,8 +36,6 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
     private CategoryGateway categoryGateway;
     @Mock
     private ExpenseGateway expenseGateway;
-    @Mock
-    private BudgetGateway budgetGateway;
     @InjectMocks
     private DefaultCreateExpenseUseCase useCase;
 
@@ -43,9 +44,9 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
         final var expectedName = "test";
         final var expectedDescription = "test";
         final var expectedAmount = BigDecimal.valueOf(20L);
-        final var expectedCreatedAt = InstantUtils.now();
+        final var expectedCreatedAt = Instant.parse("2023-07-26T14:13:46.401Z");
 
-        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(Budget.newBudget("test", BigDecimal.valueOf(100L))));
 
         when(categoryGateway.findBy(expectedCategory.getId())).thenReturn(Optional.of(expectedCategory));
 
@@ -69,12 +70,40 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
                 && Objects.equals(expectedAmount, expense.getAmount())
                 && Objects.equals(expectedCategory, expense.getCategory())
                 && Objects.equals(expectedCreatedAt, expense.getCreatedAt())
-                && Objects.equals(expectedAmount, expense.getCategory().getActualValue())
-                && Objects.equals(expectedAmount, expense.getCategory().getBudget().getActualValue())
         ));
+    }
 
-        verify(budgetGateway).update(any());
-        verify(categoryGateway).update(any());
+    @Test
+    public void givenAValidParams_whenCallsNewExpenseWithoutACreatedDate_shouldReturnIt() {
+        final var expectedName = "test";
+        final var expectedDescription = "test";
+        final var expectedAmount = BigDecimal.valueOf(20L);
+
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(Budget.newBudget("test", BigDecimal.valueOf(100L))));
+
+        when(categoryGateway.findBy(expectedCategory.getId())).thenReturn(Optional.of(expectedCategory));
+
+        final var command = CreateExpenseCommand.with(
+                expectedName,
+                expectedDescription,
+                null,
+                expectedAmount,
+                expectedCategory.getId().getValue()
+
+        );
+
+        when(expenseGateway.create(any())).thenAnswer(returnsFirstArg());
+
+        useCase.execute(command);
+
+        verify(expenseGateway).create(argThat(expense ->
+                Objects.nonNull(expense.getId())
+                        && Objects.equals(expectedName, expense.getName())
+                        && Objects.equals(expectedDescription, expense.getDescription())
+                        && Objects.equals(expectedAmount, expense.getAmount())
+                        && Objects.equals(expectedCategory, expense.getCategory())
+                        && Objects.nonNull(expense.getCreatedAt())
+        ));
     }
 
     @ParameterizedTest
@@ -88,7 +117,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
             final String expectedName,
             final String expectedErrorMessage
     ){
-        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(Budget.newBudget("test", BigDecimal.valueOf(100L))));
         final var expectedErrorCount = 1;
 
         when(categoryGateway.findBy(expectedCategory.getId())).thenReturn(Optional.of(expectedCategory));
@@ -108,8 +137,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
         assertEquals(expectedErrorMessage, exception.getErrors().get(0).message());
 
         verify(expenseGateway, never()).create(any());
-        verify(budgetGateway, never()).update(any());
-        verify(categoryGateway, never()).update(any());
+        verify(categoryGateway, never()).update((Category) any());
     }
 
 }

@@ -4,7 +4,7 @@ import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryID;
 import com.study.expensetracker.domain.category.CategoryType;
 import com.study.expensetracker.infrastructure.budget.persistence.BudgetJpaEntity;
-import com.study.expensetracker.infrastructure.configuration.GeneratedJpaOnly;
+import com.study.expensetracker.infrastructure.configuration.annotations.GeneratedJpaOnly;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Optional;
 
 @Entity
 @Table(name = "categories")
@@ -29,8 +30,8 @@ public class CategoryJpaEntity {
     private CategoryType type;
     @Column(nullable = false)
     private BigDecimal actualValue;
-    @ManyToOne
-    @JoinColumn(name = "budget_id", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "budget_id", nullable = true)
     private BudgetJpaEntity budget;
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP(6)")
     private Instant createdAt;
@@ -46,7 +47,7 @@ public class CategoryJpaEntity {
             final String name,
             final CategoryType type,
             final BigDecimal actualValue,
-            final BudgetJpaEntity budget,
+            final BudgetJpaEntity  budget,
             final Instant createdAt,
             final Instant updatedAt
     ) {
@@ -65,7 +66,7 @@ public class CategoryJpaEntity {
                 category.getName(),
                 category.getType(),
                 category.getActualValue(),
-                BudgetJpaEntity.from(category.getBudget()),
+                category.getBudget().map(BudgetJpaEntity::from).orElse(null),
                 category.getCreatedAt(),
                 category.getUpdatedAt()
         );
@@ -77,7 +78,7 @@ public class CategoryJpaEntity {
                 name,
                 type,
                 actualValue,
-                budget.toAggregate(),
+                Optional.ofNullable(budget).map(BudgetJpaEntity::toAggregate),
                 createdAt,
                 updatedAt
         );

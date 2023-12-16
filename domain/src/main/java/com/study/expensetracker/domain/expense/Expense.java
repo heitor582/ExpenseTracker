@@ -2,10 +2,12 @@ package com.study.expensetracker.domain.expense;
 
 import com.study.expensetracker.domain.AggregateRoot;
 import com.study.expensetracker.domain.category.Category;
+import com.study.expensetracker.domain.events.DomainEvent;
 import com.study.expensetracker.domain.validation.ValidationHandler;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 public class Expense extends AggregateRoot<ExpenseID> {
@@ -21,9 +23,10 @@ public class Expense extends AggregateRoot<ExpenseID> {
             final String description,
             final BigDecimal amount,
             final Category category,
-            final Instant createdAt
+            final Instant createdAt,
+            final List<DomainEvent> domainEvents
     ) {
-        super(id);
+        super(id, domainEvents);
         this.name = name;
         this.description = description;
         this.amount = amount;
@@ -40,8 +43,7 @@ public class Expense extends AggregateRoot<ExpenseID> {
             final Category category,
             final Instant createdAt
     ) {
-        category.addValue(amount);
-        return new Expense(ExpenseID.unique(), name, description, amount, category, createdAt);
+        return new Expense(ExpenseID.unique(), name, description, amount, category, createdAt, null);
     }
 
     public static Expense with(
@@ -52,7 +54,7 @@ public class Expense extends AggregateRoot<ExpenseID> {
             final Category category,
             final Instant createdAt
     ){
-        return new Expense(id, name, description, amount, category, createdAt);
+        return new Expense(id, name, description, amount, category, createdAt, null);
     }
 
     @Override
@@ -78,5 +80,9 @@ public class Expense extends AggregateRoot<ExpenseID> {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void onInvoiceCreated() {
+        this.registerEvent(new InvoiceCreated(id.getValue()));
     }
 }

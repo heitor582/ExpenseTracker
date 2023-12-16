@@ -23,6 +23,12 @@ spring:
       maximum-pool-size: 20
       minimum-idle: 10
       pool-name: master
+  rabbitmq:
+    dynamic: ${amqp.admin.auto-create}
+    host: ${amqp.host}
+    port: ${amqp.port}
+    username: ${amqp.username}
+    password: ${amqp.password}
   jpa:
     open-in-view: false
     show-sql: true
@@ -41,3 +47,16 @@ spring:
       baseline-on-migrate: true
       check-location: true
       enabled: true
+
+amqp:
+  admin:
+    auto-create: false
+  queues:
+    create-invoice:
+      exchange: expense_tracker
+      routing-key: create-invoice
+      queue: create-invoice
+    update-history:
+      exchange: expense_tracker
+      routing-key: update-history
+      queue: update-history

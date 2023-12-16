@@ -32,7 +32,7 @@ class FindExpenseByIdUseCaseTest extends UseCaseTest {
     @Test
     public void givenAValidId_whenCallsGetExpense_shouldReturnIt() {
         final Budget budget = Budget.newBudget("test", BigDecimal.ZERO);
-        final var category = Category.newCategory("test", CategoryType.WITHDRAW, budget);
+        final var category = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(budget));
         final var expense = Expense.newExpense("test", "", BigDecimal.ZERO, category, InstantUtils.now());
         final var id = expense.getId();
 

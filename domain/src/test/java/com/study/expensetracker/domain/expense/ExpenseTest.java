@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,7 +23,7 @@ class ExpenseTest extends UnitTest {
         final var expectedName = "test";
         final var expectedDescription = "test";
         final var expectedAmount = BigDecimal.valueOf(20L);
-        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(Budget.newBudget("test", BigDecimal.valueOf(100L))));
         final var expectedCreatedAt = InstantUtils.now();
 
         final var expense = Expense.newExpense(expectedName, expectedDescription, expectedAmount, expectedCategory, expectedCreatedAt);
@@ -35,9 +36,6 @@ class ExpenseTest extends UnitTest {
         assertEquals(expectedAmount, expense.getAmount());
         assertEquals(expectedCategory, expense.getCategory());
         assertEquals(expectedCreatedAt, expense.getCreatedAt());
-
-        assertEquals(expectedAmount, expense.getCategory().getActualValue());
-        assertEquals(expectedAmount, expense.getCategory().getBudget().getActualValue());
     }
 
     @ParameterizedTest
@@ -51,7 +49,7 @@ class ExpenseTest extends UnitTest {
             final String expectedName,
             final String expectedErrorMessage
     ){
-        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Budget.newBudget("test", BigDecimal.valueOf(100L)));
+        final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(Budget.newBudget("test", BigDecimal.valueOf(100L))));
         final var expectedErrorCount = 1;
 
         final var exception = assertThrows(NotificationException.class,

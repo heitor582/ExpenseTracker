@@ -32,7 +32,7 @@ class FindCategoryByIdUseCaseTest extends UseCaseTest {
     @Test
     public void givenAValidId_whenCallsGetCategory_shouldReturnIt() {
         final Budget budget = Budget.newBudget("test", BigDecimal.ZERO);
-        final var category = Category.newCategory("test", CategoryType.WITHDRAW, budget);
+        final var category = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(budget));
         final var id = category.getId();
 
         when(categoryGateway.findBy(id)).thenReturn(Optional.of(category));
@@ -42,7 +42,7 @@ class FindCategoryByIdUseCaseTest extends UseCaseTest {
         assertEquals(output.id(), category.getId());
         assertEquals(output.name(), category.getName());
         assertEquals(output.type(), category.getType());
-        assertEquals(output.budgetID(), category.getBudget().getId());
+        assertEquals(output.budgetID(), category.getBudget().get().getId());
         assertEquals(output.actualValue(), category.getActualValue());
         assertEquals(output.createdAt(), category.getCreatedAt());
         assertEquals(output.updatedAt(), category.getUpdatedAt());

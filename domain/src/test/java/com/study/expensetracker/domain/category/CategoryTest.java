@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +25,7 @@ class CategoryTest extends UnitTest {
         final var expectedAmount = BigDecimal.ZERO;
         final var expectedBudget = Budget.newBudget("test", BigDecimal.valueOf(100L));
 
-        final var category = Category.newCategory(expectedName, expectedType, expectedBudget);
+        final var category = Category.newCategory(expectedName, expectedType, Optional.of(expectedBudget));
 
         assertNotNull(category);
         assertNotNull(category.getId());
@@ -32,7 +33,7 @@ class CategoryTest extends UnitTest {
         assertEquals(expectedName, category.getName());
         assertEquals(expectedType, category.getType());
         assertEquals(expectedAmount, category.getActualValue());
-        assertEquals(expectedBudget, category.getBudget());
+        assertEquals(expectedBudget, category.getBudget().get());
         assertNotNull(category.getCreatedAt());
         assertNotNull(category.getUpdatedAt());
         assertEquals(category.getCreatedAt(), category.getUpdatedAt());
@@ -54,7 +55,7 @@ class CategoryTest extends UnitTest {
         final var expectedErrorCount = 1;
 
         final var exception = assertThrows(NotificationException.class,
-                () -> Category.newCategory(expectedName, CategoryType.WITHDRAW, expectedBudget));
+                () -> Category.newCategory(expectedName, CategoryType.WITHDRAW, Optional.of(expectedBudget)));
 
         assertEquals(expectedErrorCount, exception.getErrors().size());
         assertEquals(expectedErrorMessage, exception.getErrors().get(0).message());
@@ -67,7 +68,7 @@ class CategoryTest extends UnitTest {
         final var expectedErrorMessage = "Cannot add a negative number to a category";
 
         final var exception = assertThrows(NotificationException.class, () ->
-                Category.newCategory("test", CategoryType.WITHDRAW, budget).addValue(BigDecimal.valueOf(-1)));
+                Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(budget)).addValue(BigDecimal.valueOf(-1)));
 
         assertEquals(expectedErrorCount, exception.getErrors().size());
         assertEquals(expectedErrorMessage, exception.getErrors().get(0).message());
@@ -77,7 +78,7 @@ class CategoryTest extends UnitTest {
     public void givenAPositiveValue_whenCallsCategoryAddValue_thenShouldNotThrowAnyException() {
         final var budget = Budget.newBudget("test", BigDecimal.valueOf(100L));
         final var expectedActualValue = BigDecimal.valueOf(20L);
-        final var category = assertDoesNotThrow(() -> Category.newCategory("test", CategoryType.WITHDRAW, budget).addValue(expectedActualValue));
+        final var category = assertDoesNotThrow(() -> Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(budget)).addValue(expectedActualValue));
 
         assertEquals(expectedActualValue, category.getActualValue());
         assertEquals(expectedActualValue, budget.getActualValue());
@@ -88,7 +89,7 @@ class CategoryTest extends UnitTest {
     public void givenAValidName_whenCallsUpdate_thenShouldNotThrowAnyException() {
         final var budget = Budget.newBudget("test", BigDecimal.valueOf(100L));
         final var expectedName = "test2";
-        final var category = assertDoesNotThrow(() -> Category.newCategory(expectedName, CategoryType.WITHDRAW, budget).update(expectedName));
+        final var category = assertDoesNotThrow(() -> Category.newCategory(expectedName, CategoryType.WITHDRAW, Optional.of(budget)).update(expectedName));
 
         assertEquals(expectedName, category.getName());
         assertTrue(category.getUpdatedAt().isAfter(category.getCreatedAt()));
@@ -109,7 +110,7 @@ class CategoryTest extends UnitTest {
         final var expectedErrorCount = 1;
 
         final var exception = assertThrows(NotificationException.class, () ->
-                Category.newCategory("test", CategoryType.WITHDRAW, budget).update(expectedName));
+                Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(budget)).update(expectedName));
 
         assertEquals(expectedErrorCount, exception.getErrors().size());
         assertEquals(expectedErrorMessage, exception.getErrors().get(0).message());

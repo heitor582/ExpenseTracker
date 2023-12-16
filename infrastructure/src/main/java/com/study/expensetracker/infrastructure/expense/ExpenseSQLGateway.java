@@ -5,8 +5,10 @@ import com.study.expensetracker.domain.expense.ExpenseGateway;
 import com.study.expensetracker.domain.expense.ExpenseID;
 import com.study.expensetracker.domain.pagination.Pagination;
 import com.study.expensetracker.domain.pagination.SearchQuery;
+import com.study.expensetracker.infrastructure.configuration.annotations.InvoiceCreatedQueue;
 import com.study.expensetracker.infrastructure.expense.persistence.ExpenseJpaEntity;
 import com.study.expensetracker.infrastructure.expense.persistence.ExpenseRepository;
+import com.study.expensetracker.infrastructure.services.EventService;
 import com.study.expensetracker.infrastructure.utils.SpecificationUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,14 +21,19 @@ import java.util.Optional;
 @Component
 public class ExpenseSQLGateway implements ExpenseGateway {
     private final ExpenseRepository repository;
+    private final EventService eventService;
 
-    public ExpenseSQLGateway(final ExpenseRepository repository) {
+    public ExpenseSQLGateway(final ExpenseRepository repository, @InvoiceCreatedQueue EventService eventService) {
         this.repository = Objects.requireNonNull(repository);
+        this.eventService = eventService;
     }
 
     @Override
     public Expense create(final Expense expense) {
-        return this.repository.save(ExpenseJpaEntity.from(expense)).toAggregate();
+        final Expense newExpense = this.repository.save(ExpenseJpaEntity.from(expense)).toAggregate();
+        newExpense.onInvoiceCreated();
+        newExpense.publishDomainEvents(this.eventService::send);
+        return newExpense;
     }
 
     @Override

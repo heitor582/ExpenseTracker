@@ -15,10 +15,37 @@ CREATE TABLE categories(
    created_at TIMESTAMP(6) NOT NULL,
    updated_at TIMESTAMP(6) NOT NULL,
 
-   budget_id VARCHAR(32) NOT NULL,
+   budget_id VARCHAR(32),
     CONSTRAINT fk_id_budget FOREIGN KEY(budget_id)
     REFERENCES budgets(id)
 );
+
+CREATE TABLE budgets_history(
+ id CHAR(32) NOT NULL PRIMARY KEY,
+ month SMALLINT NOT NULL,
+ year SMALLINT NOT NULL,
+ actual_value DECIMAL NOT NULL,
+ max_value DECIMAL NOT NULL,
+
+ CONSTRAINT fk_id_budget_history FOREIGN KEY(id)
+    REFERENCES budgets(id)
+);
+
+CREATE UNIQUE INDEX budgets_history_month_day
+    ON budgets_history (id, month, year);
+
+CREATE TABLE categories_history(
+ id CHAR(32) NOT NULL PRIMARY KEY,
+ month SMALLINT NOT NULL,
+ year SMALLINT NOT NULL,
+ actual_value DECIMAL NOT NULL,
+
+ CONSTRAINT fk_id_category_history FOREIGN KEY(id)
+    REFERENCES categories(id)
+);
+
+CREATE UNIQUE INDEX categories_history_month_day
+    ON categories_history (id, month, year);
 
 CREATE TABLE expenses(
    id CHAR(32) NOT NULL PRIMARY KEY,

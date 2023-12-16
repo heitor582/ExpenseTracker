@@ -3,7 +3,7 @@ package com.study.expensetracker.infrastructure.expense.persistence;
 import com.study.expensetracker.domain.expense.Expense;
 import com.study.expensetracker.domain.expense.ExpenseID;
 import com.study.expensetracker.infrastructure.category.persistence.CategoryJpaEntity;
-import com.study.expensetracker.infrastructure.configuration.GeneratedJpaOnly;
+import com.study.expensetracker.infrastructure.configuration.annotations.GeneratedJpaOnly;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

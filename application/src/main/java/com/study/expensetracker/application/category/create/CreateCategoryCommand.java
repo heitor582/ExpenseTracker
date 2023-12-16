@@ -1,14 +1,16 @@
 package com.study.expensetracker.application.category.create;
 
+import java.util.Optional;
+
 public record CreateCategoryCommand(
         String name,
         String type,
-        String budgetId
+        Optional<String> budgetId
 ) {
     public static CreateCategoryCommand with(
             final String name,
             final String type,
-            final String budgetId
+            final Optional<String> budgetId
     ) {
         return new CreateCategoryCommand(name, type, budgetId);
     }

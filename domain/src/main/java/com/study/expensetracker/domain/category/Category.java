@@ -10,12 +10,13 @@ import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Optional;
 
 public class Category extends AggregateRoot<CategoryID> {
     private String name;
     private final CategoryType type;
     private BigDecimal actualValue;
-    private final Budget budget;
+    private final Optional<Budget> budget;
     private final Instant createdAt;
     private Instant updatedAt;
 
@@ -24,7 +25,7 @@ public class Category extends AggregateRoot<CategoryID> {
             final String name,
             final CategoryType type,
             final BigDecimal actualValue,
-            final Budget budget,
+            final Optional<Budget> budget,
             final Instant createdAt,
             final Instant updatedAt
     ) {
@@ -44,7 +45,7 @@ public class Category extends AggregateRoot<CategoryID> {
             final String name,
             final CategoryType type,
             final BigDecimal actualValue,
-            final Budget budget,
+            final Optional<Budget> budget,
             final Instant createdAt,
             final Instant updatedAt
     ) {
@@ -62,7 +63,7 @@ public class Category extends AggregateRoot<CategoryID> {
     public static Category newCategory(
             final String name,
             final CategoryType type,
-            final Budget budget
+            final Optional<Budget> budget
     ) {
         final Instant now = InstantUtils.now();
         return new Category(
@@ -87,6 +88,12 @@ public class Category extends AggregateRoot<CategoryID> {
         return this;
     }
 
+    public Category update(final BigDecimal actualValue) {
+        this.actualValue = actualValue;
+        this.update();
+        return this;
+    }
+
     public Category addValue(final BigDecimal value) {
         if(value.signum() < 0) {
             final String errorMessage = "Cannot add a negative number to a category";
@@ -94,7 +101,7 @@ public class Category extends AggregateRoot<CategoryID> {
         }
 
         this.actualValue = actualValue.add(value);
-        budget.addValue(value);
+        budget.ifPresent(b -> b.addValue(value));
         update();
         return this;
     }
@@ -114,7 +121,7 @@ public class Category extends AggregateRoot<CategoryID> {
     public BigDecimal getActualValue() {
         return actualValue;
     }
-    public Budget getBudget() {
+    public Optional<Budget> getBudget() {
         return budget;
     }
     public Instant getCreatedAt() {

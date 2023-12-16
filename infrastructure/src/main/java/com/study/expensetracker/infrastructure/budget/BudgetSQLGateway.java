@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,6 +33,12 @@ public class BudgetSQLGateway implements BudgetGateway {
     @Override
     public Budget update(final Budget budget) {
         return save(budget);
+    }
+
+    @Override
+    public List<Budget> update(final List<Budget> budget) {
+        return repository.saveAll(budget.stream().map(BudgetJpaEntity::from).toList())
+                .stream().map(BudgetJpaEntity::toAggregate).toList();
     }
 
     @Override
@@ -61,6 +68,11 @@ public class BudgetSQLGateway implements BudgetGateway {
     @Override
     public Optional<Budget> findBy(final BudgetID budgetID) {
         return this.repository.findById(budgetID.getValue()).map(BudgetJpaEntity::toAggregate);
+    }
+
+    @Override
+    public List<Budget> findALl() {
+        return repository.findAll().stream().map(BudgetJpaEntity::toAggregate).toList();
     }
 
     private Budget save(final Budget budget){

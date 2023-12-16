@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,6 +33,12 @@ public class CategorySQLGateway implements CategoryGateway {
     @Override
     public Category update(final Category category) {
         return save(category);
+    }
+
+    @Override
+    public List<Category> update(final List<Category> categories) {
+        return repository.saveAll(categories.stream().map(CategoryJpaEntity::from).toList())
+                .stream().map(CategoryJpaEntity::toAggregate).toList();
     }
 
     @Override
@@ -61,6 +68,16 @@ public class CategorySQLGateway implements CategoryGateway {
     @Override
     public Optional<Category> findBy(final CategoryID categoryId) {
         return this.repository.findById(categoryId.getValue()).map(CategoryJpaEntity::toAggregate);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return repository.findAll().stream().map(CategoryJpaEntity::toAggregate).toList();
+    }
+
+    @Override
+    public List<Category> findALl() {
+        return repository.findAll().stream().map(CategoryJpaEntity::toAggregate).toList();
     }
 
     private Category save(final Category category){

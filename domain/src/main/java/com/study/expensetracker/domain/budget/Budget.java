@@ -13,7 +13,7 @@ import java.time.Instant;
 public class Budget extends AggregateRoot<BudgetID> {
     private String name;
     private BigDecimal actualValue;
-    private final BigDecimal maxValue;
+    private BigDecimal maxValue;
     private final Instant createdAt;
     private Instant updatedAt;
 
@@ -65,6 +65,13 @@ public class Budget extends AggregateRoot<BudgetID> {
 
     public Budget update(final String name) {
         this.name = name;
+        this.update();
+        return this;
+    }
+
+    public Budget update(final BigDecimal actualValue, final BigDecimal maxValue) {
+        this.actualValue = actualValue;
+        this.maxValue = maxValue;
         this.update();
         return this;
     }

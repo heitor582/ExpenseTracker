@@ -43,7 +43,7 @@ class CreateCategoryUseCaseTest extends UseCaseTest {
 
         when(budgetGateway.findBy(budget.getId())).thenReturn(Optional.of(budget));
 
-        final var command = CreateCategoryCommand.with(expectedName, expectedType.name(), budget.getId().getValue());
+        final var command = CreateCategoryCommand.with(expectedName, expectedType.name(), budget.getId().getValue().describeConstable());
 
         when(categoryGateway.create(any())).thenAnswer(returnsFirstArg());
 
@@ -54,7 +54,7 @@ class CreateCategoryUseCaseTest extends UseCaseTest {
                         && Objects.equals(expectedName, category.getName())
                         && Objects.equals(expectedType, category.getType())
                         && Objects.equals(BigDecimal.ZERO, category.getActualValue())
-                        && Objects.equals(budget, category.getBudget())
+                        && Objects.equals(budget, category.getBudget().get())
                         && Objects.nonNull(category.getCreatedAt())
                         && Objects.nonNull(category.getUpdatedAt())
         ));
@@ -79,7 +79,7 @@ class CreateCategoryUseCaseTest extends UseCaseTest {
 
         when(budgetGateway.findBy(budget.getId())).thenReturn(Optional.of(budget));
 
-        final var command = CreateCategoryCommand.with(expectedName, expectedType.name(), budget.getId().getValue());
+        final var command = CreateCategoryCommand.with(expectedName, expectedType.name(), budget.getId().getValue().describeConstable());
 
         final var exception = assertThrows(NotificationException.class, () -> useCase.execute(command));
 
