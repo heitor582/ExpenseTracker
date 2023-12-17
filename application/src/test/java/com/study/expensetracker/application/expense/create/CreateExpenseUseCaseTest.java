@@ -2,11 +2,8 @@ package com.study.expensetracker.application.expense.create;
 
 import com.study.expensetracker.application.UseCaseTest;
 import com.study.expensetracker.domain.budget.Budget;
-import com.study.expensetracker.domain.budget.BudgetGateway;
-import com.study.expensetracker.domain.budget.BudgetHistoryGateway;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
-import com.study.expensetracker.domain.category.CategoryHistoryGateway;
 import com.study.expensetracker.domain.category.CategoryType;
 import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.expense.ExpenseGateway;

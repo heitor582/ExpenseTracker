@@ -6,20 +6,22 @@ import com.study.expensetracker.domain.validation.handler.Notification;
 
 import java.math.BigDecimal;
 
-//#TODO Review this
 public abstract class History<ID extends Identifier> {
-    private final ID id;
+    private final Long id;
+    private final ID aggregateId;
     private final int month;
     private final int year;
     protected BigDecimal actualValue;
 
     protected History(
-            ID id,
-            int month,
-            int year,
-            BigDecimal actualValue
+            final Long id,
+            final ID aggregateId,
+            final int month,
+            final int year,
+            final BigDecimal actualValue
     ) {
         this.id = id;
+        this.aggregateId = aggregateId;
         this.month = month;
         this.year = year;
         this.actualValue = actualValue;
@@ -34,8 +36,12 @@ public abstract class History<ID extends Identifier> {
         this.actualValue = actualValue.add(value);
     }
 
-    public ID getId() {
+    public Long getId() {
         return id;
+    }
+
+    public ID getAggregateId() {
+        return aggregateId;
     }
 
     public int getMonth() {

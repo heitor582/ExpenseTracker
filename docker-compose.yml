@@ -11,8 +11,6 @@ services:
       - rabbitmq
     env_file:
       - .env
-    networks:
-      - server-network
 
   expense_tracker_postgres:
     image: postgres
@@ -23,8 +21,6 @@ services:
       - .env
     volumes:
       - expense_tracker_postgres_data:/var/lib/postgresql/data
-    networks:
-      - server-network
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -35,11 +31,9 @@ services:
     volumes:
       - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
       - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
-    networks:
-      - server-network
 
 networks:
-  server-network:
+  default:
     driver: bridge
 
 volumes:

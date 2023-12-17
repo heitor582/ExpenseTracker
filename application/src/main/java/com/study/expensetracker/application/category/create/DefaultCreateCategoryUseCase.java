@@ -6,7 +6,6 @@ import com.study.expensetracker.domain.budget.BudgetID;
 import com.study.expensetracker.domain.category.Category;
 import com.study.expensetracker.domain.category.CategoryGateway;
 import com.study.expensetracker.domain.category.CategoryType;
-import com.study.expensetracker.domain.exceptions.NotFoundException;
 import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.validation.handler.Notification;
 

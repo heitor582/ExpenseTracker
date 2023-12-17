@@ -21,7 +21,7 @@ public record CategoryListResponse(
                 output.name(),
                 output.type().name(),
                 output.actualValue(),
-                output.categoryID().getValue(),
+                output.budgetID().getValue(),
                 output.createdAt(),
                 output.updatedAt()
         );

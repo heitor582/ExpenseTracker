@@ -10,17 +10,16 @@ import com.study.expensetracker.domain.category.CategoryHistory;
 import com.study.expensetracker.domain.category.CategoryHistoryGateway;
 import com.study.expensetracker.domain.utils.InstantUtils;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
-public class DefaultUpdateHistory extends UpdateHistory {
+public class DefaultUpdateHistoryUseCaseUseCase extends UpdateHistoryUseCase {
     private final BudgetGateway budgetGateway;
     private final CategoryGateway categoryGateway;
     private final BudgetHistoryGateway budgetHistoryGateway;
     private final CategoryHistoryGateway categoryHistoryGateway;
 
-    public DefaultUpdateHistory(
+    public DefaultUpdateHistoryUseCaseUseCase(
             final BudgetGateway budgetGateway,
             final CategoryGateway categoryGateway,
             final BudgetHistoryGateway budgetHistoryGateway,
@@ -62,7 +61,7 @@ public class DefaultUpdateHistory extends UpdateHistory {
             final CategoryHistory newCategoryHistory = categoryHistoryGateway.findByCategoryID(category.getId(), month, year)
                     .orElse(CategoryHistory.newCategoryHistory(category.getId(), month, year, category.getActualValue()));
             categoryHistoryGateway.update(newCategoryHistory);
-            category.update(newCategoryHistory.getActualValue());;
+            category.update(newCategoryHistory.getActualValue());
         });
 
         categoryGateway.update(oldCategories);

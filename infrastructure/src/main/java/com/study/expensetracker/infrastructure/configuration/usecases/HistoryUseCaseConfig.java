@@ -1,9 +1,9 @@
 package com.study.expensetracker.infrastructure.configuration.usecases;
 
-import com.study.expensetracker.application.history.create.CreateHistory;
-import com.study.expensetracker.application.history.create.DefaultCreateHistory;
-import com.study.expensetracker.application.history.update.DefaultUpdateHistory;
-import com.study.expensetracker.application.history.update.UpdateHistory;
+import com.study.expensetracker.application.history.create.CreateHistoryUseCase;
+import com.study.expensetracker.application.history.create.DefaultCreateHistoryUseCaseUseCase;
+import com.study.expensetracker.application.history.update.DefaultUpdateHistoryUseCaseUseCase;
+import com.study.expensetracker.application.history.update.UpdateHistoryUseCase;
 import com.study.expensetracker.domain.budget.BudgetGateway;
 import com.study.expensetracker.domain.budget.BudgetHistoryGateway;
 import com.study.expensetracker.domain.category.CategoryGateway;
@@ -36,12 +36,12 @@ public class HistoryUseCaseConfig {
     }
 
     @Bean
-    public UpdateHistory updateHistory() {
-        return new DefaultUpdateHistory(budgetGateway, categoryGateway, budgetHistoryGateway, categoryHistoryGateway);
+    public UpdateHistoryUseCase updateHistory() {
+        return new DefaultUpdateHistoryUseCaseUseCase(budgetGateway, categoryGateway, budgetHistoryGateway, categoryHistoryGateway);
     }
 
     @Bean
-    public CreateHistory createHistory() {
-        return new DefaultCreateHistory(budgetGateway, categoryGateway, budgetHistoryGateway, categoryHistoryGateway, expenseGateway);
+    public CreateHistoryUseCase createHistory() {
+        return new DefaultCreateHistoryUseCaseUseCase(budgetGateway, categoryGateway, budgetHistoryGateway, categoryHistoryGateway, expenseGateway);
     }
 }

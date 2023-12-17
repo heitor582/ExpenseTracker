@@ -17,14 +17,14 @@ import com.study.expensetracker.domain.utils.InstantUtils;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-public class DefaultCreateHistory extends CreateHistory{
+public class DefaultCreateHistoryUseCaseUseCase extends CreateHistoryUseCase {
     private final ExpenseGateway expenseGateway;
     private final BudgetGateway budgetGateway;
     private final CategoryGateway categoryGateway;
     private final BudgetHistoryGateway budgetHistoryGateway;
     private final CategoryHistoryGateway categoryHistoryGateway;
 
-    public DefaultCreateHistory(
+    public DefaultCreateHistoryUseCaseUseCase(
             final BudgetGateway budgetGateway,
             final CategoryGateway categoryGateway,
             final BudgetHistoryGateway budgetHistoryGateway,

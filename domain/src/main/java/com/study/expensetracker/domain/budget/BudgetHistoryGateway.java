@@ -1,6 +1,5 @@
 package com.study.expensetracker.domain.budget;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BudgetHistoryGateway {

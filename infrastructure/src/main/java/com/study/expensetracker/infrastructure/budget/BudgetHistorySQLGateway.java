@@ -7,7 +7,6 @@ import com.study.expensetracker.infrastructure.budget.persistence.BudgetHistoryJ
 import com.study.expensetracker.infrastructure.budget.persistence.BudgetHistoryRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 //#TODO Review this
@@ -30,7 +29,7 @@ public class BudgetHistorySQLGateway implements BudgetHistoryGateway {
             final int month,
             final int year
     ) {
-        return this.repository.findByIdAndMonthAndYear(
+        return this.repository.findByBudgetIdAndMonthAndYear(
                 id.getValue(),
                 month,
                 year

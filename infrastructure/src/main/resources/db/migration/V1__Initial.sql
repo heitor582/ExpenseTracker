@@ -21,31 +21,33 @@ CREATE TABLE categories(
 );
 
 CREATE TABLE budgets_history(
- id CHAR(32) NOT NULL PRIMARY KEY,
+ id SERIAL NOT NULL PRIMARY KEY,
+ budget_id CHAR(32) NOT NULL,
  month SMALLINT NOT NULL,
  year SMALLINT NOT NULL,
  actual_value DECIMAL NOT NULL,
  max_value DECIMAL NOT NULL,
 
- CONSTRAINT fk_id_budget_history FOREIGN KEY(id)
+ CONSTRAINT fk_id_budget_history FOREIGN KEY(budget_id)
     REFERENCES budgets(id)
 );
 
 CREATE UNIQUE INDEX budgets_history_month_day
-    ON budgets_history (id, month, year);
+    ON budgets_history (budget_id, month, year);
 
 CREATE TABLE categories_history(
- id CHAR(32) NOT NULL PRIMARY KEY,
+ id SERIAL NOT NULL PRIMARY KEY,
+ category_id CHAR(32) NOT NULL,
  month SMALLINT NOT NULL,
  year SMALLINT NOT NULL,
  actual_value DECIMAL NOT NULL,
 
- CONSTRAINT fk_id_category_history FOREIGN KEY(id)
+ CONSTRAINT fk_id_category_history FOREIGN KEY(category_id)
     REFERENCES categories(id)
 );
 
 CREATE UNIQUE INDEX categories_history_month_day
-    ON categories_history (id, month, year);
+    ON categories_history (category_id, month, year);
 
 CREATE TABLE expenses(
    id CHAR(32) NOT NULL PRIMARY KEY,

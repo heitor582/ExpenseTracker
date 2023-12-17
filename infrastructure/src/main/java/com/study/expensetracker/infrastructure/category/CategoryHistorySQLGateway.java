@@ -7,7 +7,6 @@ import com.study.expensetracker.infrastructure.category.persistence.CategoryHist
 import com.study.expensetracker.infrastructure.category.persistence.CategoryHistoryRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 //#TODO Review this
@@ -26,6 +25,6 @@ public class CategoryHistorySQLGateway implements CategoryHistoryGateway {
 
     @Override
     public Optional<CategoryHistory> findByCategoryID(final CategoryID categoryID, final int month, final int year) {
-        return this.repository.findByIdAndMonthAndYear(categoryID.getValue(), month, year).map(CategoryHistoryJpaEntity::toAggregate);
+        return this.repository.findByCategoryIdAndMonthAndYear(categoryID.getValue(), month, year).map(CategoryHistoryJpaEntity::toAggregate);
     }
 }

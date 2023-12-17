@@ -1,7 +1,6 @@
 package com.study.expensetracker.application.expense.create;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.Optional;
 
 public record CreateExpenseCommand(
