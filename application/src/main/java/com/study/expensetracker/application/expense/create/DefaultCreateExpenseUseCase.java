@@ -38,6 +38,7 @@ public class DefaultCreateExpenseUseCase extends CreateExpenseUseCase{
                 command.name(),
                 command.description(),
                 command.amount(),
+                command.paymentMethod(),
                 category,
                 Instant.parse(command.createdAt().orElse(now.toString()))
         ));

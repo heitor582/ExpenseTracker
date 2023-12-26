@@ -15,6 +15,7 @@ public class Expense extends AggregateRoot<ExpenseID> {
     private final String description;
     private final BigDecimal amount;
     private final Category category;
+    private final PaymentMethod paymentMethod;
     private final Instant createdAt;
 
     private Expense(
@@ -23,6 +24,7 @@ public class Expense extends AggregateRoot<ExpenseID> {
             final String description,
             final BigDecimal amount,
             final Category category,
+            final PaymentMethod paymentMethod,
             final Instant createdAt,
             final List<DomainEvent> domainEvents
     ) {
@@ -31,6 +33,7 @@ public class Expense extends AggregateRoot<ExpenseID> {
         this.description = description;
         this.amount = amount;
         this.category = category;
+        this.paymentMethod = paymentMethod;
         this.createdAt = Objects.requireNonNull(createdAt, "createdAt should not be null");
 
         selfValidate("Failed to create a Aggregate Expense");
@@ -40,10 +43,11 @@ public class Expense extends AggregateRoot<ExpenseID> {
             final String name,
             final String description,
             final BigDecimal amount,
+            final PaymentMethod paymentMethod,
             final Category category,
             final Instant createdAt
     ) {
-        return new Expense(ExpenseID.unique(), name, description, amount, category, createdAt, null);
+        return new Expense(ExpenseID.unique(), name, description, amount, category, paymentMethod, createdAt, null);
     }
 
     public static Expense with(
@@ -51,10 +55,11 @@ public class Expense extends AggregateRoot<ExpenseID> {
             final String name,
             final String description,
             final BigDecimal amount,
+            final PaymentMethod paymentMethod,
             final Category category,
             final Instant createdAt
     ){
-        return new Expense(id, name, description, amount, category, createdAt, null);
+        return new Expense(id, name, description, amount, category, paymentMethod, createdAt, null);
     }
 
     @Override
@@ -72,6 +77,10 @@ public class Expense extends AggregateRoot<ExpenseID> {
 
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 
     public Category getCategory() {

@@ -40,6 +40,7 @@ public class ExpenseController implements ExpenseAPI {
                 input.name(),
                 input.description(),
                 input.createdAt(),
+                input.paymentMethod(),
                 input.amount(),
                 input.categoryID()
         );

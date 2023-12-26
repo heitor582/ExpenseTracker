@@ -2,10 +2,13 @@ package com.study.expensetracker.infrastructure.expense.persistence;
 
 import com.study.expensetracker.domain.expense.Expense;
 import com.study.expensetracker.domain.expense.ExpenseID;
+import com.study.expensetracker.domain.expense.PaymentMethod;
 import com.study.expensetracker.infrastructure.category.persistence.CategoryJpaEntity;
 import com.study.expensetracker.infrastructure.configuration.annotations.GeneratedJpaOnly;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -25,6 +28,9 @@ public class ExpenseJpaEntity {
     private String description;
     @Column(nullable = false)
     private BigDecimal amount;
+    @Column(name = "payment_method", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryJpaEntity category;
@@ -40,6 +46,7 @@ public class ExpenseJpaEntity {
             final String name,
             final String description,
             final BigDecimal amount,
+            final PaymentMethod paymentMethod,
             final CategoryJpaEntity category,
             final Instant createdAt
     ) {
@@ -47,6 +54,7 @@ public class ExpenseJpaEntity {
         this.name = name;
         this.description = description;
         this.amount = amount;
+        this.paymentMethod  = paymentMethod;
         this.category = category;
         this.createdAt = createdAt;
     }
@@ -57,6 +65,7 @@ public class ExpenseJpaEntity {
                 expense.getName(),
                 expense.getDescription(),
                 expense.getAmount(),
+                expense.getPaymentMethod(),
                 CategoryJpaEntity.from(expense.getCategory()),
                 expense.getCreatedAt()
         );
@@ -68,6 +77,7 @@ public class ExpenseJpaEntity {
                 this.name,
                 this.description,
                 this.amount,
+                this.paymentMethod,
                 this.category.toAggregate(),
                 this.createdAt
         );

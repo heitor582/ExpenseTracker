@@ -8,6 +8,7 @@ import com.study.expensetracker.domain.exceptions.NotFoundException;
 import com.study.expensetracker.domain.expense.Expense;
 import com.study.expensetracker.domain.expense.ExpenseGateway;
 import com.study.expensetracker.domain.expense.ExpenseID;
+import com.study.expensetracker.domain.expense.PaymentMethod;
 import com.study.expensetracker.domain.utils.InstantUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +34,7 @@ class FindExpenseByIdUseCaseTest extends UseCaseTest {
     public void givenAValidId_whenCallsGetExpense_shouldReturnIt() {
         final Budget budget = Budget.newBudget("test", BigDecimal.ZERO);
         final var category = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(budget));
-        final var expense = Expense.newExpense("test", "", BigDecimal.ZERO, category, InstantUtils.now());
+        final var expense = Expense.newExpense("test", "", BigDecimal.ZERO, PaymentMethod.PIX, category, InstantUtils.now());
         final var id = expense.getId();
 
         when(expenseGateway.findBy(id)).thenReturn(Optional.of(expense));

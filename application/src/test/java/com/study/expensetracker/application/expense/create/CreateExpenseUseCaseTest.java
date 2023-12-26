@@ -7,6 +7,7 @@ import com.study.expensetracker.domain.category.CategoryGateway;
 import com.study.expensetracker.domain.category.CategoryType;
 import com.study.expensetracker.domain.exceptions.NotificationException;
 import com.study.expensetracker.domain.expense.ExpenseGateway;
+import com.study.expensetracker.domain.expense.PaymentMethod;
 import com.study.expensetracker.domain.utils.InstantUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -51,6 +52,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
                 expectedName,
                 expectedDescription,
                 expectedCreatedAt.toString(),
+                PaymentMethod.PIX,
                 expectedAmount,
                 expectedCategory.getId().getValue()
 
@@ -84,6 +86,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
                 expectedName,
                 expectedDescription,
                 null,
+                PaymentMethod.PIX,
                 expectedAmount,
                 expectedCategory.getId().getValue()
 
@@ -123,6 +126,7 @@ class CreateExpenseUseCaseTest extends UseCaseTest {
                 expectedName,
                 "",
                 InstantUtils.now().toString(),
+                PaymentMethod.PIX,
                 BigDecimal.ZERO,
                 expectedCategory.getId().getValue()
 

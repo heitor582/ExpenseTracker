@@ -26,7 +26,7 @@ class ExpenseTest extends UnitTest {
         final var expectedCategory = Category.newCategory("test", CategoryType.WITHDRAW, Optional.of(Budget.newBudget("test", BigDecimal.valueOf(100L))));
         final var expectedCreatedAt = InstantUtils.now();
 
-        final var expense = Expense.newExpense(expectedName, expectedDescription, expectedAmount, expectedCategory, expectedCreatedAt);
+        final var expense = Expense.newExpense(expectedName, expectedDescription, expectedAmount, PaymentMethod.PIX, expectedCategory, expectedCreatedAt);
 
         assertNotNull(expense);
         assertNotNull(expense.getId());
@@ -53,7 +53,7 @@ class ExpenseTest extends UnitTest {
         final var expectedErrorCount = 1;
 
         final var exception = assertThrows(NotificationException.class,
-                () -> Expense.newExpense(expectedName, "", BigDecimal.ZERO, expectedCategory, InstantUtils.now()));
+                () -> Expense.newExpense(expectedName, "", BigDecimal.ZERO, PaymentMethod.PIX, expectedCategory, InstantUtils.now()));
 
         assertEquals(expectedErrorCount, exception.getErrors().size());
         assertEquals(expectedErrorMessage, exception.getErrors().get(0).message());
